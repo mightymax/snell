@@ -1,0 +1,249 @@
+:root {
+  --EU: rgba(103, 58, 183, 1);
+  --EU-light: rgba(103, 58, 183, 0.5);
+  --EU-extra-light: rgba(103, 58, 183, 0.125);
+
+  --AF: rgba(244, 67, 54, 1);
+  --AF-light: rgba(244, 67, 54, 0.5);
+  --AF-extra-light: rgba(244, 67, 54, .125);
+}
+
+body {
+  background-color: #024baa70!important;
+}
+
+#globe {
+  width: 100vw; 
+  height: 100vh;
+  padding: 0px;
+  margin: 0;
+}
+
+img.flag {
+  border: solid 2px;
+  width: 100%;
+}
+
+#countryInfo {
+  width: 600px;
+}
+
+.accordion-header .continent-name {
+  text-align: left;
+}
+
+#beenAnalytics .accordion-button {
+  padding: 0.5rem 0 0.5rem .5rem;
+  /* padding-left: 0.5em; */
+  /* padding-right: 0; */
+
+}
+
+#beenAnalytics .accordion-button::after {
+  background-image: none;
+  width: 0;
+}
+
+
+#beenAnalytics .accordion-body {
+  padding: 0px;
+}
+#beenAnalytics .list-group {
+  border-radius: 0;
+}
+
+#beenAnalytics .collapse.regions .list-group-item {
+  font-size: 70%;
+}
+
+#beenAnalytics .collapse.regions .list-group-item::before {
+  content: "•";
+  padding: 0 0.3rem 0 0;
+  color: rgba(0,0,0, .3);
+}
+
+
+#beenAnalytics .list-group-item-country .toggle-regions {
+  float: right; 
+  width: 20px;
+  height: 20px;
+  background: url('icons/caret.svg') no-repeat;
+}
+
+#beenAnalytics .list-group-item-country .toggle-regions.loading {
+  background: url('icons/hourglass-split.svg') no-repeat;
+}
+
+#beenAnalytics .list-group-item-country .toggle-regions.opened {
+  /* background: url('icons/caret-up.svg') no-repeat; */
+  transform: rotate(180deg);
+}
+
+#beenAnalytics .progress {
+  font-size: .5rem;
+  border-radius: 0;
+  height: 0.75rem;
+}
+
+#beenAnalytics .list-group-item {
+  background: rgba(255, 255,255, 0.125)!important;
+}
+
+#beenAnalytics .list-group-item.active {
+  border: 1px solid rgba(0,0,0,.125);
+}
+
+/* Europe */
+#beenAnalytics .bg-EU, 
+#accordion-item-EU .list-group-item.active 
+{
+  color: var(--EU);
+  background: var(--EU-extra-light)!important;
+}
+
+#accordion-item-EU .accordion-button.collapsed .continent-name {
+  color: var(--EU);
+}
+
+#continent-name-EU .accordion-button:not(.collapsed) {
+  color: #ffffff;
+  background: var(--EU-light)!important;
+}
+
+#continent-name-EU .accordion-button:not(.collapsed) .badge.bg-EU {
+  color: var(--EU);
+  background: #ffffff!important;
+}
+
+/* Africa */
+#beenAnalytics .bg-AF, 
+#accordion-item-AF .list-group-item.active 
+{
+  color: var(--AF);
+  background: var(--AF-extra-light)!important;
+}
+
+#accordion-item-AF .accordion-button.collapsed .continent-name {
+  color: var(--AF);
+}
+
+#continent-name-AF .accordion-button:not(.collapsed) {
+  color: #ffffff;
+  background: var(--AF-light)!important;
+}
+
+#continent-name-AF .accordion-button:not(.collapsed) .badge.bg-AF {
+  color: var(--AF);
+  background: #ffffff!important;
+}
+
+/* Asia */
+#beenAnalytics .bg-AS , 
+#accordion-item-AS .list-group-item.active 
+{
+  color: rgba(156, 39, 176, 1);
+  background: rgba(156, 39, 176, 0.125)!important;
+}
+
+#accordion-item-AS .accordion-button.collapsed .continent-name {
+  color: rgba(156, 39, 176, 1);
+}
+
+#continent-name-AS .accordion-button:not(.collapsed) {
+  color: #ffffff;
+  background: rgba(156, 39, 176, 0.5)!important;
+}
+
+#continent-name-AS .accordion-button:not(.collapsed) .badge.bg-AS {
+  color: rgba(156, 39, 176, 1);
+  background: rgba(255, 255, 255, 1)!important;
+}
+
+/* North America */
+#beenAnalytics .bg-NA, 
+#accordion-item-NA .list-group-item.active 
+{
+  color: rgba(63, 81, 181, 1);
+  background: rgba(63, 81, 181, 0.125)!important;
+}
+
+#accordion-item-NA .accordion-button.collapsed .continent-name {
+  color: rgba(63, 81, 181, 1);
+}
+
+#continent-name-NA .accordion-button:not(.collapsed) {
+  color: #ffffff;
+  background: rgba(63, 81, 181, 0.5)!important;
+}
+
+#continent-name-NA .accordion-button:not(.collapsed) .badge.bg-NA {
+  color: rgba(63, 81, 181, 1);
+  background: rgba(255, 255, 255, 1)!important;
+}
+
+/* South America */
+#beenAnalytics .bg-SA, 
+#accordion-item-SA .list-group-item.active 
+{
+  color: rgba(0, 188, 212, 1);
+  background: rgba(0, 188, 212, 0.125)!important;
+}
+
+#accordion-item-SA .accordion-button.collapsed .continent-name {
+  color: rgba(0, 188, 212, 1);
+}
+
+#continent-name-SA .accordion-button:not(.collapsed) {
+  color: #ffffff;
+  background: rgba(0, 188, 212, 0.5)!important;
+}
+
+#continent-name-SA .accordion-button:not(.collapsed) .badge.bg-SA {
+  color: rgba(0, 188, 212, 1);
+  background: rgba(255, 255, 255, 1)!important;
+}
+
+/* Antartica */
+#beenAnalytics .bg-AN, 
+#accordion-item-AN .list-group-item.active 
+{
+  color: rgba(33, 150, 243, 1);
+  background: rgba(33, 150, 243, 0.125)!important;
+}
+
+#accordion-item-AN .accordion-button.collapsed .continent-name {
+  color: rgba(33, 150, 243, 1);
+}
+
+#continent-name-AN .accordion-button:not(.collapsed) {
+  color: #ffffff;
+  background: rgba(33, 150, 243, 0.5)!important;
+}
+
+#continent-name-AN .accordion-button:not(.collapsed) .badge.bg-AN {
+  color: rgba(33, 150, 243, 1);
+  background: rgba(255, 255, 255, 1)!important;
+}
+
+/* Oceania */
+#beenAnalytics .bg-OC, 
+#accordion-item-OC .list-group-item.active 
+{
+  color: rgba(33, 150, 243, 1);
+  background: rgba(33, 150, 243, 0.125)!important;
+}
+
+#accordion-item-OC .accordion-button.collapsed .continent-name {
+  color: rgba(33, 150, 243, 1);
+}
+
+#continent-name-OC .accordion-button:not(.collapsed) {
+  color: #ffffff;
+  background: rgba(33, 150, 243, 0,5)!important;
+}
+
+#continent-name-OC .accordion-button:not(.collapsed) .badge.bg-OC {
+  color: rgba(33, 150, 243, 1);
+  background: rgba(255, 255, 255, 1)!important;
+}
+

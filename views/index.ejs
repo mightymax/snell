@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link href="stylesheets/Snell.css" rel="stylesheet">
+        <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgo=">
+        <link xmlns="http://www.w3.org/1999/xhtml" rel="shortcut icon" href="icons/globe.svg" />
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+        <title>Snell</title>
+    </head>
+    <body>
+        <div id="globe"></div>
+        <% if (env == "development") { %>
+        <% } %>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj" crossorigin="anonymous"></script>
+        <script>
+            var SnellGlobalConfig = {
+                api: "/api"
+            }
+        </script>
+        <script src="javascripts/index.js"></script>
+    </body>
+</html>
+

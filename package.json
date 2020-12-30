@@ -1,0 +1,35 @@
+{
+  "name": "snell",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "./node_modules/.bin/nodemon ./bin/www --ignore 'public/'",
+    "prepare": "webpack"
+  },
+  "dependencies": {
+    "@amcharts/amcharts4": "^4.10.13",
+    "@amcharts/amcharts4-geodata": "^4.1.19",
+    "bootstrap": "^5.0.0-beta1",
+    "cookie-parser": "~1.4.4",
+    "core-js": "^3.8.1",
+    "debug": "~2.6.9",
+    "ejs": "^3.1.5",
+    "express": "~4.16.1",
+    "http-errors": "~1.6.3",
+    "morgan": "~1.9.1",
+    "sha.js": "^2.4.11",
+    "source-map-loader": "^2.0.0",
+    "sqlite3": "^5.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.10",
+    "@babel/plugin-syntax-dynamic-import": "^7.8.3",
+    "@babel/plugin-transform-runtime": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
+    "babel-loader": "^8.2.2",
+    "nodemon": "^2.0.6",
+    "regenerator-runtime": "^0.13.7",
+    "webpack": "^5.11.0",
+    "webpack-cli": "^4.3.0"
+  }
+}

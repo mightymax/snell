@@ -8,7 +8,7 @@ import am4geodata_data_countries2 from "@amcharts/amcharts4-geodata/data/countri
 
 const SnellDefaultConfig = {
     container: 'globe', 
-    api: '/api',
+    api: 'api',
     iconPath: 'icons'
 }
 

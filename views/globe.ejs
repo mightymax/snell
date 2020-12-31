@@ -21,9 +21,11 @@
     
     <script src="javascripts/globe.js"></script>
     <script>
-
+window.onload = function(){
 
         var world;
+        var w = window.innerWidth;
+        var h = window.innerHeight;
       fetch('geodata/json/data/countries2.json').then(res => {
           res.json().then(countries2 => {
             countries = countries2;
@@ -55,6 +57,8 @@
                 .hexBinPointLng(d => d.geometry.coordinates[0])
                 .hexBinPointWeight(d => 10)
                 .hexAltitude(0.5)
+                .width(w)
+                .height(h)
                 (document.getElementById('globeViz'));
 
                 countryPolygons.features.forEach(feat => {
@@ -93,6 +97,6 @@
       });
 
   
-
+    }
     </script>
   </body>

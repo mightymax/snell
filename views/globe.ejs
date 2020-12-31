@@ -14,39 +14,16 @@
   
     <script src="//unpkg.com/d3"></script>
     <script src="//unpkg.com/globe.gl"></script>
-  </head>
-  
-  <body>
+</head>
+
+<body>
     <div id="globeViz"></div>
-  
+    
+    <script src="javascripts/globe.js"></script>
     <script>
 
-      var once = false;
-      var countries;
-      const continents = {
-          AN: 'Antartica',
-          AS: 'Asia',
-          EU: 'Europe',
-          NA: 'North America',
-          OC: 'Oceania',
-          SA: 'South America'
-      }
-      const continent_codes = Object.keys(continents);
-      const colorScale = d3.scaleSequentialSqrt(d3.interpolateYlOrRd);
-      colorScale.domain([0, continent_codes.length + 1]);
 
-      const __getVal = country => {
-          if (!countries[country.id]) {
-              console.log(country.id);
-              return 7;
-          }
-          return continent_codes.indexOf(countries[country.id].continent_code);
-      }
-
-      const getVal = country => countries[country.id] ? continent_codes.indexOf(countries[country.id].continent_code) : 7;
-
-
-
+        var world;
       fetch('geodata/json/data/countries2.json').then(res => {
           res.json().then(countries2 => {
             countries = countries2;
@@ -55,8 +32,7 @@
             let polygonCapColor = 'rgba(0, 100, 0, 0)' //'rgba(0, 100, 0, 0.15)'
             
             fetch('geodata/json/worldLow.json').then(res => res.json()).then(countryPolygons => {
-                const world = Globe()
-                // .globeImageUrl('//unpkg.com/three-globe/example/img/earth-blue-marble.jpg')
+                world = Globe()
                 .globeImageUrl('//unpkg.com/three-globe/example/img/earth-day.jpg')
                 .backgroundImageUrl('//unpkg.com/three-globe/example/img/night-sky.png')
                 .bumpImageUrl('//unpkg.com/three-globe/example/img/earth-topology.png')
@@ -75,8 +51,42 @@
                     console.log(polygon);
                 })
                 .polygonsTransitionDuration(300)
-                (document.getElementById('globeViz'))
+                .hexBinPointLat(d => d.geometry.coordinates[1])
+                .hexBinPointLng(d => d.geometry.coordinates[0])
+                .hexBinPointWeight(d => 10)
+                .hexAltitude(0.5)
+                (document.getElementById('globeViz'));
 
+                countryPolygons.features.forEach(feat => {
+                    if (countries[feat.id]) countries[feat.id].feature = feat;
+                });
+
+            }).then(function(){
+                fetch('api/been').then(res => res.json()).then(been => {
+                    let FeatureCollection = {
+                        type: 'FeatureCollection',
+                        features: []
+                    }
+                    been.forEach(element => {
+                        getCountryCentre(element.country, (point, err) => {
+                            if (!err) {
+                                FeatureCollection.features.push({
+                                    type: 'Feature',
+                                    properties: element,
+                                    geometry: {
+                                        type: 'Point',
+                                        coordinates: [point.x, point.y]
+                                    }
+                                })
+                            } else {
+                                console.error(err);
+                            }
+                        });
+                    });
+                    world.hexBinPointsData(FeatureCollection.features);
+                    // console.log(FeatureCollection);
+
+                });
             });
           });
 

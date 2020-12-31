@@ -146,8 +146,8 @@ class Country extends base {
             if (err || !self.has('id')) {
                 return next(err, self)
             }
-            if (!countries[this.get('id')]) return next (new Error(`country '${this.get('id')}' not found`), this);
-            this.set('feature', countries[this.get('id')]);
+            if (!countries[self.get('id')]) return next (new Error(`country '${self.get('id')}' not found`), self);
+            self.set('feature', countries[this.get('id')]);
             self.regions = self.getRegions(function(err, regions) {
                 self.set('regions', regions);
                 next(err, self);

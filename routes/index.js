@@ -7,6 +7,10 @@ router.get('/', function(req, res, next) {
   res.render('index', { env:  req.app.get('env')});
 });
 
+router.get('/globe', function(req, res, next) {
+  res.render('globe', { env:  req.app.get('env')});
+});
+
 router.get('/geodata/json/:filename([a-z]+Low).json', function(req, res, next){
   var options = {
     root: __dirname + '/../node_modules/@amcharts/amcharts4-geodata/json/',
@@ -17,7 +21,19 @@ router.get('/geodata/json/:filename([a-z]+Low).json', function(req, res, next){
     }
   }
   res.sendFile(req.params.filename + '.json', options);
-  // res.sendFile(__dirname + '/../node_modules/json/' + req.params.filename + '.json');
 })
+
+router.get('/geodata/json/data/countries2.json', function(req, res, next){
+  var options = {
+    root: __dirname + '/../node_modules/@amcharts/amcharts4-geodata/json/data',
+    dotfiles: 'deny',
+    headers: {
+      'x-timestamp': Date.now(),
+      'x-sent': true
+    }
+  }
+  res.sendFile('countries2.json', options);
+})
+
 
 module.exports = router;

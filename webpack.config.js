@@ -10,7 +10,7 @@ module.exports = {
   },
 
   output: {
-    path: $path.join(__dirname, "public/javascripts/"),
+    path: $path.join(__dirname, "public/javascripts/Snell"),
     filename: "[name].js",
     chunkFilename: "[name].js"
   },

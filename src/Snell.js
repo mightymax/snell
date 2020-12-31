@@ -2,9 +2,9 @@ import "core-js/stable";
 import "regenerator-runtime/runtime";
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4maps from "@amcharts/amcharts4/maps";
-import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+// import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import am4geodata_worldLow from "@amcharts/amcharts4-geodata/worldLow";
-// import am4geodata_data_countries2 from "@amcharts/amcharts4-geodata/data/countries2";
+import am4geodata_data_countries2 from "@amcharts/amcharts4-geodata/data/countries2";
 
 const SnellDefaultConfig = {
     container: 'globe', 
@@ -46,7 +46,7 @@ class Snell {
         const config = SnellConfig.getInstance(userConfig);
         
         this.country = null;
-        am4core.useTheme(am4themes_animated);
+        // am4core.useTheme(am4themes_animated);
         this.globe = am4core.create(config.get('container'), SnellGlobe).setSnell(this);
         this.globe.zoomControl = new SnellToolbar(this);
 
@@ -70,20 +70,18 @@ class SnellBeenMapApi extends XMLHttpRequest
 {
     constructor() {
         super();
-        this.apiUrl = SnellConfig.getInstance().get('api/been');
-
-
+        this.apiUrl = SnellConfig.getInstance().get('api')+'/been';
     }
 
-    save (obj, callback) {
-        return this.go('POST', obj, callback)
+    save (obj, next) {
+        return this.go('POST', obj, next)
     }
 
-    delete (obj, callback) {
-        return this.go('DELETE', obj, callback)
+    delete (obj, next) {
+        return this.go('DELETE', obj, next)
     }
 
-    go(method, obj, callback) {
+    go(method, obj, next) {
         //Regions are not always loaded by MapPolygon, so dual way to handle these requests
         //We assume if obj is not an object, it is a region id! 
         if (typeof obj == 'string') {
@@ -96,8 +94,8 @@ class SnellBeenMapApi extends XMLHttpRequest
         
         var url =  this.apiUrl + `/${objectType}/${id}`;
         this.open(method, url);
-        if (!callback) callback = function(){};
-        this.onload = callback;
+        if (!next) next = function(){};
+        this.onload = next;
         this.send();
     }
 
@@ -132,7 +130,6 @@ class SnellBeenMap extends Map {
         if (!country instanceof am4maps.MapPolygon) throw 'wrong argument: !instanceof am4maps.MapPolygon';
         if (!country.series instanceof SnellCountries) throw 'wrong argument: region !instanceof SnellCountries';
         this.api.save(country);
-        // this.save('setCountry', country);
 
         return this.set(country.get('id'), new SnellBeenMapRegions())
     }
@@ -141,7 +138,6 @@ class SnellBeenMap extends Map {
         if (!country instanceof am4maps.MapPolygon) throw 'wrong argument: !instanceof am4maps.MapPolygon';
         if (!country.series instanceof SnellCountries) throw 'wrong argument: region !instanceof SnellCountries';
         this.api.delete(country);
-        // this.save('deleteCountry', country);
         return this.delete(country.get('id'));
     }
 
@@ -234,14 +230,9 @@ class SnellBeenMapCountries extends SnellBeenMap
         if (!this.has(countryId)) {
             var map = new SnellBeenMapRegions([id, true]);
             this.set(countryId, map);
-            //LET OP: 2x API call!
-            this.save('setCountry', countryId, function() {
-                this.api.save(region);
-                this.save('setRegion', region);
-            }.bind(this));
+            this.api.save(region);
             return map;
         } else {
-            this.save('setRegion', region);
             this.api.save(region);
             return this.get(countryId).set(id, true);
         }
@@ -258,7 +249,6 @@ class SnellBeenMapCountries extends SnellBeenMap
         var countryId = SnellRegions.getCountryId(id);
         if (!this.has(countryId)) return false;
         this.api.delete(region);
-        this.save('deleteRegion', region);
         return this.get(countryId).delete(id);
     }
     
@@ -324,7 +314,7 @@ class SnellGlobe extends am4maps.MapChart
     constructor() {
         super();
         this.projection = new am4maps.projections.Orthographic();
-        this.geodata = am4geodata_worldLow;
+        // this.geodata = am4geodata_worldLow;
 
         this.padding(10, 10, 10, 10);
     
@@ -410,7 +400,6 @@ class SnellCountries extends am4maps.MapPolygonSeries {
         var countries = this.mapPolygons.template;
         countries.togglable = false;
 
-
         countries.events.on('hit', this.showCountry);
 
         countries.tooltipText = "{name}";
@@ -423,29 +412,22 @@ class SnellCountries extends am4maps.MapPolygonSeries {
         countries.states.create("hoverActive").properties.fill = SnellColors.get('hover_country');
         countries.states.create("active").properties.fill = SnellColors.get('been');
         
-        var datasourceCountries2 = new am4core.DataSource();
-        datasourceCountries2.url = SnellConfig.getInstance().get('api') + '/world';
-        datasourceCountries2.events.on("done", function(ev) {
-            let countries = ev.data;
-            // Set up data for countries
-            var data = [];
-            for(var id in countries) {
-                if (countries.hasOwnProperty(id)) {
-                    var country = countries[id];
-                    if (country.maps.length) {
-                        data.push({
-                            id: id,
-                            continent: country.continent_code,
-                            color: SnellColors.get(country.continent_code),
-                            map: country.maps[0],
-                        });
-                    }
+        // Set up data for countries
+        var data = [];
+        for(var id in am4geodata_data_countries2) {
+            if (am4geodata_data_countries2.hasOwnProperty(id)) {
+                var country = am4geodata_data_countries2[id];
+                if (country.maps.length) {
+                    data.push({
+                        id: id,
+                        continent: country.continent_code,
+                        color: SnellColors.get(country.continent_code),
+                        map: country.maps[0],
+                    });
                 }
             }
-            this.data = data;
-
-        }.bind(this));
-        datasourceCountries2.load();
+        }
+        this.data = data;
     }
 
 }

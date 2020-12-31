@@ -1,0 +1,80 @@
+<!-- https://globe.gl/example/choropleth-countries/ -->
+<head>
+    <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgo=">
+    <link xmlns="http://www.w3.org/1999/xhtml" rel="shortcut icon" href="icons/globe.svg" />
+    <style> body { margin: 0; } </style>
+  
+    <script src="//unpkg.com/d3"></script>
+    <script src="//unpkg.com/globe.gl"></script>
+  </head>
+  
+  <body>
+    <div id="globeViz"></div>
+  
+    <script>
+
+      var once = false;
+      var countries;
+      const continents = {
+          AN: 'Antartica',
+          AS: 'Asia',
+          EU: 'Europe',
+          NA: 'North America',
+          OC: 'Oceania',
+          SA: 'South America'
+      }
+      const continent_codes = Object.keys(continents);
+      const colorScale = d3.scaleSequentialSqrt(d3.interpolateYlOrRd);
+      colorScale.domain([0, continent_codes.length + 1]);
+
+      const __getVal = country => {
+          if (!countries[country.id]) {
+              console.log(country.id);
+              return 7;
+          }
+          return continent_codes.indexOf(countries[country.id].continent_code);
+      }
+
+      const getVal = country => countries[country.id] ? continent_codes.indexOf(countries[country.id].continent_code) : 7;
+
+
+
+      fetch('geodata/json/data/countries2.json').then(res => {
+          res.json().then(countries2 => {
+            countries = countries2;
+
+            let polygonAltitude = 0 //0.06
+            let polygonCapColor = 'rgba(0, 100, 0, 0)' //'rgba(0, 100, 0, 0.15)'
+            
+            fetch('geodata/json/worldLow.json').then(res => res.json()).then(countryPolygons => {
+                const world = Globe()
+                // .globeImageUrl('//unpkg.com/three-globe/example/img/earth-blue-marble.jpg')
+                .globeImageUrl('//unpkg.com/three-globe/example/img/earth-day.jpg')
+                .backgroundImageUrl('//unpkg.com/three-globe/example/img/night-sky.png')
+                .bumpImageUrl('//unpkg.com/three-globe/example/img/earth-topology.png')
+                .polygonsData(countryPolygons.features.filter(d => d.properties.ISO_A2 !== 'aaAQ'))
+                .polygonAltitude(polygonAltitude)
+                // .polygonCapColor(feat => colorScale(getVal(feat)))
+                .polygonCapColor(() => polygonCapColor)
+                .polygonSideColor(() => 'rgba(0, 100, 0, 0.15)')
+                .polygonStrokeColor(() => '#111')
+                .polygonLabel(({ properties: d }) => `<b>${d.name}</b> (${d.id})`)
+                .onPolygonHover(hoverD => world
+                    .polygonAltitude(d => d === hoverD ? 0.12 : polygonAltitude)
+                    .polygonCapColor(d => d === hoverD ? 'rgba(0, 100, 0, 0.5)' : 'rgba(0, 100, 0, 0)') //colorScale(getVal(d)))
+                )
+                .onPolygonClick( (polygon) => {
+                    console.log(polygon);
+                })
+                .polygonsTransitionDuration(300)
+                (document.getElementById('globeViz'))
+
+            });
+          });
+
+      });
+
+  
+
+    </script>
+  </body>
